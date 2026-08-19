@@ -1,0 +1,21 @@
+{
+  "name": "sakthiganesh-data-analyst-portfolio",
+  "version": "1.0.0",
+  "description": "Full-Stack Interactive MERN Portfolio for Sakthiganesh K (Data Analyst & Analytics Engineer)",
+  "scripts": {
+    "start:server": "cd server && node server.js",
+    "start:client": "cd client && npm run dev",
+    "build:client": "cd client && npm run build",
+    "install:all": "npm --prefix server install && npm --prefix client install"
+  },
+  "keywords": [
+    "data-analyst",
+    "portfolio",
+    "mern",
+    "power-bi",
+    "sql",
+    "python",
+    "analytics"
+  ],
+  "author": "Sakthiganesh K"
+}
