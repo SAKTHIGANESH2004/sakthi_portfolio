@@ -65,30 +65,6 @@ const cohortData = {
   ]
 };
 
-const energyForecastData = {
-  metrics: {
-    hoursAnalyzed: "30,000+",
-    rmseReduction: "36.2%",
-    mape: "1.91%",
-    annualSavings: "~$50,000",
-    sqlSpeedup: "57% (4.2s -> 1.8s)"
-  },
-  timeseries: [
-    { hour: "00:00", actualLoad: 4120, arimaForecast: 4280, xgboostForecast: 4140, lowerBound: 3950, upperBound: 4300 },
-    { hour: "02:00", actualLoad: 3780, arimaForecast: 3960, xgboostForecast: 3805, lowerBound: 3620, upperBound: 3980 },
-    { hour: "04:00", actualLoad: 3590, arimaForecast: 3750, xgboostForecast: 3610, lowerBound: 3440, upperBound: 3780 },
-    { hour: "06:00", actualLoad: 4350, arimaForecast: 4190, xgboostForecast: 4320, lowerBound: 4150, upperBound: 4500 },
-    { hour: "08:00", actualLoad: 5820, arimaForecast: 5540, xgboostForecast: 5790, lowerBound: 5580, upperBound: 6020 },
-    { hour: "10:00", actualLoad: 6450, arimaForecast: 6180, xgboostForecast: 6420, lowerBound: 6200, upperBound: 6650 },
-    { hour: "12:00", actualLoad: 6680, arimaForecast: 6390, xgboostForecast: 6650, lowerBound: 6420, upperBound: 6880 },
-    { hour: "14:00", actualLoad: 6510, arimaForecast: 6250, xgboostForecast: 6490, lowerBound: 6270, upperBound: 6720 },
-    { hour: "16:00", actualLoad: 6180, arimaForecast: 5920, xgboostForecast: 6160, lowerBound: 5950, upperBound: 6380 },
-    { hour: "18:00", actualLoad: 6890, arimaForecast: 6510, xgboostForecast: 6840, lowerBound: 6600, upperBound: 7100 },
-    { hour: "20:00", actualLoad: 6420, arimaForecast: 6150, xgboostForecast: 6390, lowerBound: 6180, upperBound: 6620 },
-    { hour: "22:00", actualLoad: 4950, arimaForecast: 5180, xgboostForecast: 4980, lowerBound: 4760, upperBound: 5180 }
-  ]
-};
-
 const sqlQueryPresets = [
   {
     id: "top-paying-skills",
@@ -224,36 +200,11 @@ LIMIT 6;`,
       { cohort: "2024-05", month_0_users: 2100, m1_retention_pct: "92.0%", m3_retention_pct: "80.2%", m6_retention_pct: "73.0%" },
       { cohort: "2024-06", month_0_users: 2350, m1_retention_pct: "93.2%", m3_retention_pct: "81.9%", m6_retention_pct: "75.1%" }
     ]
-  },
-  {
-    id: "energy-demand-forecast-eval",
-    title: "4. Time-Series Predictive Model Error & Anomaly Evaluation",
-    repo: "hierarchical-energy-forecasting",
-    sql: `SELECT 
-  model_type,
-  COUNT(observation_id) AS total_hours_evaluated,
-  ROUND(AVG(ABS(actual_mw - predicted_mw)), 2) AS mean_absolute_error_mw,
-  ROUND(SQRT(AVG(POWER(actual_mw - predicted_mw, 2))), 2) AS root_mean_squared_error_mw,
-  ROUND(AVG(ABS(actual_mw - predicted_mw) / actual_mw) * 100, 2) AS mape_percentage,
-  SUM(CASE WHEN ABS(actual_mw - predicted_mw) > 2.5 * std_error THEN 1 ELSE 0 END) AS anomaly_alerts
-FROM model_forecast_evaluations
-WHERE evaluation_timestamp >= '2025-01-01'
-GROUP BY model_type
-ORDER BY mape_percentage ASC;`,
-    explanation: "Benchmarks 3-level Hierarchical ARIMA/SARIMA against XGBoost across 30,000+ hours to assess load variance and alert accuracy.",
-    executionTimeMs: 29,
-    columns: ["model_type", "total_hours_evaluated", "mean_absolute_error_mw", "root_mean_squared_error_mw", "mape_percentage", "anomaly_alerts"],
-    rows: [
-      { model_type: "Hierarchical XGBoost + Tuned Features", total_hours_evaluated: 30000, mean_absolute_error_mw: "82.4 MW", root_mean_squared_error_mw: "114.2 MW", mape_percentage: "1.91%", anomaly_alerts: 14 },
-      { model_type: "SARIMA (Seasonal P,D,Q)", total_hours_evaluated: 30000, mean_absolute_error_mw: "135.8 MW", root_mean_squared_error_mw: "179.0 MW", mape_percentage: "2.98%", anomaly_alerts: 42 },
-      { model_type: "Baseline Moving Average (7D)", total_hours_evaluated: 30000, mean_absolute_error_mw: "210.5 MW", root_mean_squared_error_mw: "281.3 MW", mape_percentage: "4.82%", anomaly_alerts: 118 }
-    ]
   }
 ];
 
 module.exports = {
   jobMarketData,
   cohortData,
-  energyForecastData,
   sqlQueryPresets
 };

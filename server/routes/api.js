@@ -2,7 +2,7 @@
 const router = express.Router();
 const nodemailer = require('nodemailer');
 const { projects } = require('../data/projectsData');
-const { jobMarketData, cohortData, energyForecastData, sqlQueryPresets } = require('../data/datasets');
+const { jobMarketData, cohortData, sqlQueryPresets } = require('../data/datasets');
 const { saveContactMessage, getContactMessages } = require('../models/Contact');
 const { getStats, recordAction } = require('../models/Analytics');
 
@@ -12,7 +12,7 @@ router.get('/health', (req, res) => {
     status: 'healthy',
     timestamp: new Date().toISOString(),
     service: 'Sakthiganesh K Portfolio API',
-    version: '1.1.0'
+    version: '1.2.0'
   });
 });
 
@@ -54,14 +54,14 @@ router.get('/profile', (req, res) => {
       analyticsAndViz: ['Power BI', 'Tableau', 'Advanced Excel (Pivot, VLOOKUP/XLOOKUP, VBA/Macros)', 'Matplotlib', 'Seaborn', 'KPI Dashboards'],
       dataProcessing: ['Python (Pandas, NumPy)', 'SQL & DB Management', 'Exploratory Data Analysis (EDA)', 'Data Profiling & Quality Checks', 'Statistics & Regression', 'ETL Pipelines'],
       analyticalMethods: ['Root Cause Analysis', 'Scenario & What-If Analysis', 'Requirements Management', 'Data Governance & Validation'],
-      cloudAndBigData: ['Snowflake', 'AWS (S3, Glue)', 'GCP (BigQuery, Composer)', 'PySpark', 'DBT', 'Airflow'],
+      cloudAndBigData: ['Snowflake', 'AWS (S3, Glue)', 'GCP (BigQuery)', 'PySpark', 'DBT', 'Airflow'],
       tools: ['Jupyter Notebook', 'Git', 'GitHub', 'Google Sheets', 'Microsoft Office Suite']
     },
     keyAchievements: [
       { metric: '780K+', label: 'Job Postings Analyzed', detail: 'Conducted end-to-end EDA & data profiling to isolate skill demand and salary benchmarks.' },
       { metric: '99.99%', label: 'Data Pipeline Integrity', detail: 'Built PySpark + Snowflake streaming architecture handling 50,000+ sensors/second.' },
       { metric: '40%', label: 'ETL Runtime Reduction', detail: 'Trimmed pipeline runtime from 12 to 7 minutes with 94%+ ML anomaly detection accuracy.' },
-      { metric: '~$50K', label: 'Annual Cost Savings', detail: 'Cut forecasting RMSE by 36% (1.91% MAPE) with hierarchical SARIMA + XGBoost models.' }
+      { metric: '33.8x', label: 'Max Channel LTV/CAC', detail: 'Formulated SQL cohort retention matrices & churn analytics to optimize customer lifetime value.' }
     ]
   });
 });
@@ -98,10 +98,6 @@ router.get('/analytics-data/market', (req, res) => {
 
 router.get('/analytics-data/cohort', (req, res) => {
   res.json(cohortData);
-});
-
-router.get('/analytics-data/energy-forecast', (req, res) => {
-  res.json(energyForecastData);
 });
 
 // SQL Playground Presets & Execution
@@ -155,45 +151,17 @@ router.post('/contact', async (req, res) => {
     const targetEmail = 'sakthiganeshk27@gmail.com';
     const saved = await saveContactMessage({ name, email, subject, company, message });
 
-    // Console notification & Email dispatch logging
     console.log(`\n======================================================`);
-    console.log(`📧 NEW RECRUITER / CANDIDATE MESSAGE RECEIVED!`);
-    console.log(`➡️ Recipient: ${targetEmail}`);
+    console.log(`📧 NEW INQUIRY RECEIVED FOR ${targetEmail}`);
     console.log(`👤 From: ${name} (${email}) - Company: ${company || 'N/A'}`);
     console.log(`📌 Subject: ${subject || 'Portfolio Inquiry'}`);
     console.log(`💬 Message:\n${message}`);
     console.log(`======================================================\n`);
 
-    // Optional Nodemailer SMTP dispatch if env variables are present
-    let emailStatus = 'recorded';
-    if (process.env.SMTP_USER && process.env.SMTP_PASS) {
-      try {
-        const transporter = nodemailer.createTransporter({
-          service: 'gmail',
-          auth: {
-            user: process.env.SMTP_USER,
-            pass: process.env.SMTP_PASS
-          }
-        });
-
-        await transporter.sendMail({
-          from: `"${name}" <${process.env.SMTP_USER}>`,
-          replyTo: email,
-          to: targetEmail,
-          subject: `[Portfolio Inquiry] ${subject || 'Data Analyst Role'} - ${name}`,
-          text: `Name: ${name}\nEmail: ${email}\nCompany: ${company || 'N/A'}\nSubject: ${subject}\n\nMessage:\n${message}`
-        });
-        emailStatus = 'sent_via_smtp';
-      } catch (mailErr) {
-        console.warn('SMTP dispatch notice:', mailErr.message);
-      }
-    }
-
     res.status(201).json({
       success: true,
       message: 'Thank you! Your message has been received for Sakthiganesh K (sakthiganeshk27@gmail.com).',
       targetEmail: targetEmail,
-      emailStatus: emailStatus,
       data: saved
     });
   } catch (err) {

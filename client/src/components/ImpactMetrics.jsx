@@ -1,7 +1,9 @@
-﻿import React from 'react';
+import React from 'react';
 import { Database, ShieldCheck, Clock, TrendingUp, Cpu, BarChart3, Layers, DollarSign } from 'lucide-react';
 
-export default function ImpactMetrics() {
+export default function ImpactMetrics({ theme }) {
+  const isDark = theme === 'dark';
+
   const metrics = [
     {
       id: 1,
@@ -55,10 +57,10 @@ export default function ImpactMetrics() {
         
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-10">
-          <h2 className="text-xs font-mono font-bold tracking-widest text-cyan-400 uppercase mb-2">
+          <h2 className={`text-xs font-mono font-bold tracking-widest uppercase mb-2 ${isDark ? 'text-cyan-400' : 'text-cyan-600'}`}>
             Quantified Business & Engineering Outcomes
           </h2>
-          <p className="text-2xl sm:text-3xl font-extrabold text-white">
+          <p className={`text-2xl sm:text-3xl font-extrabold ${isDark ? 'text-white' : 'text-slate-900'}`}>
             High-Impact Analytics Delivered at Scale
           </p>
         </div>
@@ -70,33 +72,33 @@ export default function ImpactMetrics() {
             return (
               <div
                 key={item.id}
-                className={`group glass-panel rounded-2xl p-6 border border-slate-800 transition-all duration-300 hover:-translate-y-1.5 ${item.borderColor} shadow-lg relative overflow-hidden`}
+                className={`group glass-panel rounded-2xl p-6 border transition-all duration-300 hover:-translate-y-1.5 ${item.borderColor} shadow-lg relative overflow-hidden ${isDark ? 'border-slate-800' : 'border-slate-200'}`}
               >
                 {/* Subtle top gradient bar */}
                 <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${item.accent} opacity-70 group-hover:opacity-100 transition-opacity`} />
                 
                 <div className="flex items-center justify-between mb-4">
-                  <div className="p-3 rounded-xl bg-slate-900/90 border border-slate-700/60 group-hover:scale-110 transition-transform">
+                  <div className={`p-3 rounded-xl group-hover:scale-110 transition-transform ${isDark ? 'bg-slate-900/90 border border-slate-700/60' : 'bg-slate-100 border border-slate-200'}`}>
                     <Icon className={`w-5 h-5 ${item.textColor}`} />
                   </div>
-                  <span className="text-[11px] font-mono font-semibold px-2 py-0.5 rounded bg-slate-800/80 text-slate-300 border border-slate-700">
+                  <span className={`text-[11px] font-mono font-semibold px-2 py-0.5 rounded ${isDark ? 'bg-slate-800/80 text-slate-300 border border-slate-700' : 'bg-slate-100 text-slate-500 border border-slate-300'}`}>
                     VERIFIED
                   </span>
                 </div>
 
-                <div className={`text-3xl sm:text-4xl font-extrabold font-mono tracking-tight text-white mb-1 group-hover:${item.textColor} transition-colors`}>
+                <div className={`text-3xl sm:text-4xl font-extrabold font-mono tracking-tight mb-1 group-hover:${item.textColor} transition-colors ${isDark ? 'text-white' : 'text-slate-900'}`}>
                   {item.value}
                 </div>
 
-                <div className="text-sm font-bold text-slate-100 mb-1">
+                <div className={`text-sm font-bold mb-1 ${isDark ? 'text-slate-100' : 'text-slate-800'}`}>
                   {item.label}
                 </div>
 
-                <div className="text-xs font-medium text-cyan-400/90 mb-3">
+                <div className={`text-xs font-medium mb-3 ${isDark ? 'text-cyan-400/90' : 'text-cyan-600'}`}>
                   {item.subtext}
                 </div>
 
-                <p className="text-xs text-slate-400 leading-relaxed border-t border-slate-800/80 pt-3">
+                <p className={`text-xs leading-relaxed border-t pt-3 ${isDark ? 'text-slate-400 border-slate-800/80' : 'text-slate-500 border-slate-200'}`}>
                   {item.detail}
                 </p>
               </div>

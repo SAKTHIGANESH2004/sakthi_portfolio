@@ -4,7 +4,15 @@
 
 @layer base {
   body {
+    @apply transition-colors duration-300;
+  }
+  
+  html.dark body {
     @apply bg-[#070b14] text-slate-100;
+  }
+
+  html.light body {
+    @apply bg-[#f8fafc] text-slate-900;
   }
 }
 
@@ -13,55 +21,77 @@
   width: 8px;
   height: 8px;
 }
-::-webkit-scrollbar-track {
+
+html.dark ::-webkit-scrollbar-track {
   background: #0c1322;
 }
-::-webkit-scrollbar-thumb {
+html.dark ::-webkit-scrollbar-thumb {
   background: #1e2d4e;
   border-radius: 4px;
 }
-::-webkit-scrollbar-thumb:hover {
+html.dark ::-webkit-scrollbar-thumb:hover {
   background: #06b6d4;
 }
 
-/* Background Cyber Grid */
-.bg-grid-pattern {
+html.light ::-webkit-scrollbar-track {
+  background: #e2e8f0;
+}
+html.light ::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+html.light ::-webkit-scrollbar-thumb:hover {
+  background: #0891b2;
+}
+
+/* Background Grids */
+html.dark .bg-grid-pattern {
   background-size: 40px 40px;
   background-image: 
     linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
 }
 
-.bg-radial-gradient {
-  background: radial-gradient(circle at 50% 0%, rgba(6, 182, 212, 0.15), transparent 70%);
+html.light .bg-grid-pattern {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
 }
 
 /* Glassmorphic card styling */
-.glass-panel {
+html.dark .glass-panel {
   background: rgba(12, 19, 34, 0.75);
   backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+html.light .glass-panel {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
 }
 
 .glass-panel-hover {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.glass-panel-hover:hover {
+html.dark .glass-panel-hover:hover {
   border-color: rgba(34, 211, 238, 0.4);
   box-shadow: 0 10px 30px -10px rgba(6, 182, 212, 0.25);
   transform: translateY(-2px);
 }
 
-/* Gradient text utility */
-.text-gradient {
-  background: linear-gradient(135deg, #38bdf8 0%, #22d3ee 50%, #34d399 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+html.light .glass-panel-hover:hover {
+  border-color: rgba(6, 182, 212, 0.5);
+  box-shadow: 0 10px 25px -5px rgba(6, 182, 212, 0.15);
+  transform: translateY(-2px);
 }
 
-.text-gradient-purple {
-  background: linear-gradient(135deg, #a855f7 0%, #6366f1 50%, #38bdf8 100%);
+/* Gradient text utility */
+.text-gradient {
+  background: linear-gradient(135deg, #0284c7 0%, #06b6d4 50%, #10b981 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }

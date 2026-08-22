@@ -23,7 +23,7 @@
     },
     keyInsights: [
       "SQL is required in 62.4% of all analyst roles, making it the most critical foundational skill.",
-      "Python with Pandas/NumPy unlocks senior analyst tiers with an average salary of ,200.",
+      "Python with Pandas/NumPy unlocks senior analyst tiers with an average salary of $104,200.",
       "Cloud Warehousing (Snowflake/BigQuery) and Modern Data Stack tools (DBT) offer the highest salary ROI relative to supply."
     ],
     architecture: ["Data Ingestion (780K Raw)", "Pandas Cleaning & Imputation", "Skill Normalization & Extraction", "Power BI / Seaborn Visualization"]
@@ -48,10 +48,10 @@
       situation: "Navigating career progression in data analytics requires answering multi-variable queries: what are the top paying skills, what are the most requested skills, and what is the optimal intersection of pay and market demand?",
       task: "Design robust, highly performant SQL scripts utilizing Common Table Expressions (CTEs), Window Functions (DENSE_RANK, OVER), and complex multi-table joins on relational job fact and skill dimension tables.",
       action: "Constructed modular SQL queries categorized by analysis type (Top Paying Skills, In-Demand Skills, Optimal High-Pay High-Demand Matrix). Optimized query plans with indexing strategies and normalized skill dimension relations.",
-      result: "Generated instant data-backed answers identifying PySpark, Snowflake, and DBT as top-paying technologies (averaging +), while showing that mastering SQL + Python + Snowflake yields maximum job placement probability."
+      result: "Generated instant data-backed answers identifying PySpark, Snowflake, and DBT as top-paying technologies (averaging $120K+), while showing that mastering SQL + Python + Snowflake yields maximum job placement probability."
     },
     keyInsights: [
-      "Top paying skills (PySpark, Snowflake, DBT) average ,000 - ,500/year.",
+      "Top paying skills (PySpark, Snowflake, DBT) average $121,000 - $128,500/year.",
       "Optimal value score is led by SQL, Python, and Snowflake when factoring both posting volume and salary.",
       "Window functions (DENSE_RANK) provide clear percentile distribution over basic GROUP BY aggregations."
     ],
@@ -77,7 +77,7 @@
       situation: "E-commerce and SaaS platforms frequently struggle to pinpoint when users drop off and which acquisition channels bring high-lifetime-value customers versus high-churn traffic.",
       task: "Develop an end-to-end SQL analytics model to construct monthly cohort retention grids, calculate period-over-period churn rates, and quantify customer lifetime value (LTV) against acquisition cost (CAC).",
       action: "Built complex SQL logic with date truncation, month index arithmetic, and conditional aggregation. Segmented customers across Organic Search, Paid Marketing, Referrals, and Tech Community channels to map retention decay curves.",
-      result: "Discovered Product Referrals delivered a 33.8x LTV/CAC ratio with only 2.1% monthly churn, enabling marketing teams to reallocate + in budget toward highest-retaining organic channels."
+      result: "Discovered Product Referrals delivered a 33.8x LTV/CAC ratio with only 2.1% monthly churn, enabling marketing teams to reallocate $30K+ in budget toward highest-retaining organic channels."
     },
     keyInsights: [
       "Retention stabilizes significantly after Month 3 (73.1% -> 65.2% over the next 3 months).",
@@ -85,35 +85,6 @@
       "Cohort indexing provides actionable leading indicators of customer health before revenue degradation occurs."
     ],
     architecture: ["Transaction Logs", "First-Purchase Month Indexing", "Period Aging Calculations", "LTV & Churn Matrix Generation"]
-  },
-  {
-    id: "hierarchical-energy-forecasting",
-    title: "Hierarchical Energy Demand Forecasting Pipeline",
-    shortDescription: "3-level Hierarchical ARIMA/SARIMA and XGBoost predictive models on 30,000+ hours load data, cutting RMSE by 36%.",
-    category: "Cloud & Machine Learning",
-    featured: true,
-    year: "2025–2026",
-    tags: ["Python", "Statsmodels", "ARIMA/SARIMA", "XGBoost", "GCP BigQuery", "DBT", "Airflow", "CI/CD"],
-    githubUrl: "https://github.com/SAKTHIGANESH2004",
-    liveDemoType: "forecast-viewer",
-    stats: [
-      { label: "Hours of Load Data", value: "30,000+" },
-      { label: "RMSE Reduction", value: "36.2%" },
-      { label: "MAPE Accuracy", value: "1.91%" },
-      { label: "Annual Cost Savings", value: "~,000" }
-    ],
-    starCaseStudy: {
-      situation: "Power grid and regional utility distributors faced high financial penalties due to inaccurate day-ahead energy load forecasts during peak climate spikes.",
-      task: "Design and implement a scalable predictive analytics system capable of processing 30,000+ hours of time-series electricity telemetry and outputting reliable hourly forecasts with minimum error variance.",
-      action: "Engineered a 3-level hierarchical forecasting pipeline combining seasonal ARIMA/SARIMA models with gradient-boosted XGBoost regressors. Built DBT transformation models with 95% automated test coverage in GCP BigQuery and orchestrated weekly refreshes via Cloud Composer (Airflow).",
-      result: "Cut RMSE by 36% down to a 1.91% Mean Absolute Percentage Error (MAPE), optimized query response from 4.2s to 1.8s (57% boost), and drove ~,000 in annual operational cost savings (150+ GitHub Stars)."
-    },
-    keyInsights: [
-      "Combining SARIMA's seasonal decomposition with XGBoost non-linear residual learning reduced peak load overestimation by 44%.",
-      "DBT automated data tests ensured 95% governance compliance before feeding predictions to downstream dashboards.",
-      "GCP Airflow orchestration reduced manual reporting labor by 8 hours weekly."
-    ],
-    architecture: ["GCP BigQuery Storage", "DBT Data Governance", "Hierarchical SARIMA + XGBoost", "Airflow / Cloud Composer CI/CD"]
   },
   {
     id: "iot-accident-prevention-platform",

@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   BarChart2, 
   Database, 
@@ -18,7 +18,8 @@ import {
   Layers
 } from 'lucide-react';
 
-export default function Hero({ onOpenResume }) {
+export default function Hero({ onOpenResume, theme }) {
+  const isDark = theme === 'dark';
   const [roleIndex, setRoleIndex] = useState(0);
   const roles = [
     "Data Analyst",
@@ -49,7 +50,7 @@ export default function Hero({ onOpenResume }) {
       
       {/* Live Stream Telemetry Banner */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6">
-        <div className="flex items-center justify-between gap-4 py-2 px-4 rounded-xl bg-slate-900/90 border border-slate-800 backdrop-blur-md text-[11px] font-mono shadow-lg overflow-x-auto">
+        <div className={`flex items-center justify-between gap-4 py-2 px-4 rounded-xl backdrop-blur-md text-[11px] font-mono shadow-lg overflow-x-auto ${isDark ? 'bg-slate-900/90 border border-slate-800' : 'bg-white/90 border border-slate-200 shadow-sm'}`}>
           <div className="flex items-center gap-2 text-emerald-400 shrink-0 font-semibold">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
@@ -59,7 +60,7 @@ export default function Hero({ onOpenResume }) {
             <span>STREAM TELEMETRY: {sensorCount.toLocaleString()} SENSORS/SEC (99.99% INTEGRITY)</span>
           </div>
 
-          <div className="hidden sm:flex items-center gap-4 text-slate-400 shrink-0">
+          <div className={`hidden sm:flex items-center gap-4 shrink-0 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
             <span>• 784,250 RECORDS INDEXED</span>
             <span>• QUERY LATENCY: 38ms</span>
             <span className="text-cyan-400">⚡ AIRFLOW AUTOMATION ACTIVE</span>
@@ -68,8 +69,8 @@ export default function Hero({ onOpenResume }) {
       </div>
 
       {/* Glow Radial Accents */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-cyan-500/10 blur-[140px] pointer-events-none -z-10 rounded-full"></div>
-      <div className="absolute top-1/3 right-0 w-[500px] h-[350px] bg-emerald-500/10 blur-[150px] pointer-events-none -z-10 rounded-full"></div>
+      <div className={`absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] blur-[140px] pointer-events-none -z-10 rounded-full ${isDark ? 'bg-cyan-500/10' : 'bg-cyan-500/5'}`}></div>
+      <div className={`absolute top-1/3 right-0 w-[500px] h-[350px] blur-[150px] pointer-events-none -z-10 rounded-full ${isDark ? 'bg-emerald-500/10' : 'bg-emerald-500/5'}`}></div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
@@ -78,25 +79,25 @@ export default function Hero({ onOpenResume }) {
           <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
             
             {/* Status Pill */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-950/70 border border-cyan-500/30 text-cyan-300 text-xs font-mono shadow-inner shadow-cyan-500/20">
+            <div className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono ${isDark ? 'bg-cyan-950/70 border border-cyan-500/30 text-cyan-300 shadow-inner shadow-cyan-500/20' : 'bg-cyan-50 border border-cyan-300 text-cyan-700'}`}>
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
               </span>
               <span className="font-semibold">Open for Data Analyst & BI Roles</span>
-              <span className="text-slate-600">|</span>
-              <span className="text-slate-300 flex items-center gap-1">
+              <span className={isDark ? 'text-slate-600' : 'text-slate-400'}>|</span>
+              <span className={`flex items-center gap-1 ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
                 <MapPin className="w-3 h-3 text-cyan-400" /> Madurai, India
               </span>
             </div>
 
             {/* Main Headline */}
             <div className="space-y-2">
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight">
+              <h1 className={`text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
                 Hi, I'm <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-teal-300 to-emerald-400">Sakthiganesh K</span>
               </h1>
               <div className="h-10 sm:h-12 flex items-center justify-center lg:justify-start">
-                <span className="text-xl sm:text-2xl lg:text-3xl font-semibold text-slate-300">
+                <span className={`text-xl sm:text-2xl lg:text-3xl font-semibold ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
                   I transform data into strategy as a{' '}
                   <span className="text-cyan-400 font-mono underline decoration-cyan-500/40 underline-offset-8 transition-all duration-300">
                     {roles[roleIndex]}
@@ -106,8 +107,8 @@ export default function Hero({ onOpenResume }) {
             </div>
 
             {/* Narrative Description */}
-            <p className="text-slate-300 text-base sm:text-lg max-w-2xl leading-relaxed mx-auto lg:mx-0">
-              Converting <strong className="text-white font-medium">780,000+ complex real-world records</strong> into predictive insights and automated reporting workflows. Specialized in <span className="text-cyan-300 font-semibold">SQL CTEs, Python (Pandas/NumPy), Power BI, Snowflake</span>, and Cloud Analytics Pipelines with a proven record of cutting forecasting errors by 36% and boosting ETL speeds by 40%.
+            <p className={`text-base sm:text-lg max-w-2xl leading-relaxed mx-auto lg:mx-0 ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
+              Converting <strong className={`font-medium ${isDark ? 'text-white' : 'text-slate-900'}`}>780,000+ complex real-world records</strong> into predictive insights and automated reporting workflows. Specialized in <span className={`font-semibold ${isDark ? 'text-cyan-300' : 'text-cyan-600'}`}>SQL CTEs, Python (Pandas/NumPy), Power BI, Snowflake</span>, and Cloud Analytics Pipelines with a proven record of cutting forecasting errors by 36% and boosting ETL speeds by 40%.
             </p>
 
             {/* Primary Action Buttons */}
@@ -123,7 +124,7 @@ export default function Hero({ onOpenResume }) {
 
               <button
                 onClick={onOpenResume}
-                className="flex items-center gap-2 px-5 py-3.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-slate-200 border border-slate-700/80 hover:border-cyan-500/40 font-semibold text-sm transition-all shadow-sm cursor-pointer"
+                className={`flex items-center gap-2 px-5 py-3.5 rounded-xl font-semibold text-sm transition-all shadow-sm cursor-pointer ${isDark ? 'bg-slate-900/90 hover:bg-slate-800 text-slate-200 border border-slate-700/80 hover:border-cyan-500/40' : 'bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 hover:border-cyan-500/40'}`}
               >
                 <FileDown className="w-4 h-4 text-cyan-400" />
                 <span>Download Resume (PDF)</span>
@@ -131,7 +132,7 @@ export default function Hero({ onOpenResume }) {
 
               <a
                 href="#projects"
-                className="flex items-center gap-2 px-5 py-3.5 rounded-xl bg-slate-900/50 hover:bg-slate-800/70 text-slate-300 hover:text-white border border-slate-800 text-sm font-medium transition-all"
+                className={`flex items-center gap-2 px-5 py-3.5 rounded-xl text-sm font-medium transition-all ${isDark ? 'bg-slate-900/50 hover:bg-slate-800/70 text-slate-300 hover:text-white border border-slate-800' : 'bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-slate-900 border border-slate-200'}`}
               >
                 <Code2 className="w-4 h-4 text-emerald-400" />
                 <span>Explore Projects</span>
@@ -139,14 +140,14 @@ export default function Hero({ onOpenResume }) {
             </div>
 
             {/* Credential Tags */}
-            <div className="pt-4 flex flex-wrap items-center justify-center lg:justify-start gap-3 text-xs text-slate-300 font-mono">
-              <span className="flex items-center gap-1.5 bg-slate-900/90 px-3 py-1.5 rounded-lg border border-slate-800">
+            <div className={`pt-4 flex flex-wrap items-center justify-center lg:justify-start gap-3 text-xs font-mono ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
+              <span className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg ${isDark ? 'bg-slate-900/90 border border-slate-800' : 'bg-slate-100 border border-slate-200'}`}>
                 <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400" /> Deloitte Certified Analyst
               </span>
-              <span className="flex items-center gap-1.5 bg-slate-900/90 px-3 py-1.5 rounded-lg border border-slate-800">
+              <span className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg ${isDark ? 'bg-slate-900/90 border border-slate-800' : 'bg-slate-100 border border-slate-200'}`}>
                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> TCS Gen AI Simulation
               </span>
-              <span className="flex items-center gap-1.5 bg-slate-900/90 px-3 py-1.5 rounded-lg border border-slate-800">
+              <span className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg ${isDark ? 'bg-slate-900/90 border border-slate-800' : 'bg-slate-100 border border-slate-200'}`}>
                 <Award className="w-3.5 h-3.5 text-amber-400" /> B.E. CSE (CGPA: 7.79)
               </span>
             </div>
@@ -155,10 +156,10 @@ export default function Hero({ onOpenResume }) {
 
           {/* Right Column: Interactive Code & Telemetry Showcase Widget */}
           <div className="lg:col-span-5">
-            <div className="glass-panel rounded-2xl p-5 border border-slate-700/70 shadow-2xl relative group overflow-hidden">
+            <div className={`glass-panel rounded-2xl p-5 shadow-2xl relative group overflow-hidden ${isDark ? 'border border-slate-700/70' : 'border border-slate-200'}`}>
               
               {/* Header bar */}
-              <div className="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
+              <div className={`flex items-center justify-between pb-3 mb-4 ${isDark ? 'border-b border-slate-800' : 'border-b border-slate-200'}`}>
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
                   <div className="w-3 h-3 rounded-full bg-yellow-500/80"></div>
@@ -185,8 +186,8 @@ export default function Hero({ onOpenResume }) {
                 </div>
               </div>
 
-              {/* Code Snippet Box */}
-              <div className="font-mono text-xs text-slate-200 leading-relaxed bg-[#050811] p-4 rounded-xl border border-slate-800/90 overflow-x-auto">
+              {/* Code Snippet Box — kept dark in both themes for readability */}
+              <div className={`font-mono text-xs text-slate-200 leading-relaxed p-4 rounded-xl overflow-x-auto ${isDark ? 'bg-[#050811] border border-slate-800/90' : 'bg-slate-900 border border-slate-700'}`}>
                 {activeCodeTab === 'sql' ? (
                   <pre className="space-y-1">
                     <div><span className="text-purple-400">WITH</span> <span className="text-cyan-300">salary_benchmarks</span> <span className="text-purple-400">AS</span> (</div>
@@ -214,7 +215,7 @@ export default function Hero({ onOpenResume }) {
               </div>
 
               {/* Execution Summary Tag */}
-              <div className="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between text-xs">
+              <div className={`mt-4 pt-3 flex items-center justify-between text-xs ${isDark ? 'border-t border-slate-800' : 'border-t border-slate-200'}`}>
                 <div className="flex items-center gap-2 text-emerald-400 font-mono">
                   <Zap className="w-3.5 h-3.5" />
                   <span>Execution: 38ms (99.99% Integrity)</span>

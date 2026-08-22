@@ -1,5 +1,9 @@
-﻿const API_BASE = '/api';
+const API_BASE = '/api';
 const TARGET_INBOX = 'sakthiganeshk27@gmail.com';
+
+// Web3Forms access key - free tier, no email verification needed
+// To get your own key: visit https://web3forms.com, enter sakthiganeshk27@gmail.com, and paste the key here
+const WEB3FORMS_ACCESS_KEY = 'YOUR_ACCESS_KEY_HERE';
 
 export const fetchProfile = async () => {
   try {
@@ -93,10 +97,15 @@ export const executeSqlQuery = async (queryId, customSql) => {
   }
 };
 
-// Dual delivery: Sends to backend API and sends direct Gmail notification via FormSubmit
+/**
+ * Triple-delivery contact system:
+ * 1. Backend API (database persistence + server logs)
+ * 2. FormSubmit.co (direct email to sakthiganeshk27@gmail.com)
+ * 3. Web3Forms fallback (secondary email delivery)
+ */
 export const sendContactMessage = async (formData) => {
   let backendResult = null;
-  let emailDeliveryResult = null;
+  let emailDelivered = false;
 
   // 1. Send to Portfolio Express Backend (Stores in DB & Logs)
   try {
@@ -112,7 +121,7 @@ export const sendContactMessage = async (formData) => {
     console.warn('Backend contact save note:', backendErr.message);
   }
 
-  // 2. Direct Inbox Delivery to sakthiganeshk27@gmail.com via FormSubmit
+  // 2. Primary: FormSubmit.co direct delivery to sakthiganeshk27@gmail.com
   try {
     const mailRes = await fetch(`https://formsubmit.co/ajax/${TARGET_INBOX}`, {
       method: 'POST',
@@ -121,27 +130,58 @@ export const sendContactMessage = async (formData) => {
         'Accept': 'application/json'
       },
       body: JSON.stringify({
-        _subject: `[Portfolio Candidate Inquiry] ${formData.subject || 'Data Analyst Role'} - ${formData.name}`,
+        _subject: `[Portfolio] ${formData.subject || 'Data Analyst Role'} — from ${formData.name}`,
         _template: 'table',
         _captcha: 'false',
-        name: formData.name,
-        email: formData.email,
-        company: formData.company || 'N/A',
-        subject: formData.subject || 'Data Analyst Opportunity',
-        message: formData.message
+        _replyto: formData.email,
+        Name: formData.name,
+        Email: formData.email,
+        Company: formData.company || 'N/A',
+        Subject: formData.subject || 'Data Analyst Opportunity',
+        Message: formData.message
       })
     });
     if (mailRes.ok) {
-      emailDeliveryResult = await mailRes.json();
+      const result = await mailRes.json();
+      if (result.success) emailDelivered = true;
     }
   } catch (mailErr) {
-    console.warn('Direct mail dispatch note:', mailErr.message);
+    console.warn('FormSubmit dispatch note:', mailErr.message);
+  }
+
+  // 3. Fallback: Web3Forms delivery (if key is configured)
+  if (!emailDelivered && WEB3FORMS_ACCESS_KEY !== 'YOUR_ACCESS_KEY_HERE') {
+    try {
+      const w3Res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_ACCESS_KEY,
+          subject: `[Portfolio] ${formData.subject || 'Data Analyst Role'} — from ${formData.name}`,
+          from_name: formData.name,
+          replyto: formData.email,
+          name: formData.name,
+          email: formData.email,
+          company: formData.company || 'N/A',
+          message: formData.message
+        })
+      });
+      if (w3Res.ok) {
+        const result = await w3Res.json();
+        if (result.success) emailDelivered = true;
+      }
+    } catch (w3Err) {
+      console.warn('Web3Forms dispatch note:', w3Err.message);
+    }
   }
 
   return {
     success: true,
     backend: backendResult,
-    emailDelivery: emailDeliveryResult,
+    emailDelivered,
     targetInbox: TARGET_INBOX
   };
 };
