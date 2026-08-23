@@ -1,4 +1,4 @@
-﻿[build]
+[build]
   command = "npm --prefix client install && npm --prefix client run build"
   publish = "client/dist"
 
@@ -6,6 +6,3 @@
   from = "/*"
   to = "/index.html"
   status = 200
-
-[build.environment]
-  NODE_VERSION = "20"
